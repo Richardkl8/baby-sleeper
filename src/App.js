@@ -37,6 +37,7 @@ export default function App() {
   return (
       <div>
         <div>
+          <h1>test</h1>
           <p>Ze sliep {sleptOn}</p>
           <p>Ze moet {shouldSleepOn} liggen</p>
           <p>Aangepast op: {time}</p>
