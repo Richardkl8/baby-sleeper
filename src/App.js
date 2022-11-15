@@ -4,90 +4,58 @@ import './App.css';
 import {useState} from "react";
 
 export default function App() {
-  const [sleptOn, setSleptOn] = useState('Selecteer...');
-  const [shouldSleepOn, setShouldSleepOn] = useState('');
-  const [time, setTime] = useState('');
+    const [sleptOn, setSleptOn] = useState('Selecteer...');
+    const [shouldSleepOn, setShouldSleepOn] = useState('');
+    const [time, setTime] = useState('');
 
-  const [isLeftDisabled, setIsLeftDisabled] = useState(false);
-  const [isRightDisabled, setIsRightDisabled] = useState(false);
+    const [isLeftDisabled, setIsLeftDisabled] = useState(false);
+    const [isRightDisabled, setIsRightDisabled] = useState(false);
 
-  const onLeftPress = () => {
-    setIsRightDisabled(false);
-    setIsLeftDisabled(true);
-    setShouldSleepOn('rechts');
-    setSleptOn('links')
-    setTimeStamp();
-  }
+    const onLeftPress = () => {
+        setIsRightDisabled(false);
+        setIsLeftDisabled(true);
+        setShouldSleepOn('rechter');
+        setSleptOn('linker')
+        setTimeStamp();
+    }
 
-  const onRightPress = () => {
-    setIsRightDisabled(true);
-    setIsLeftDisabled(false);
-    setShouldSleepOn('links');
-    setSleptOn('rechts')
-    setTimeStamp();
-  }
+    const onRightPress = () => {
+        setIsRightDisabled(true);
+        setIsLeftDisabled(false);
+        setShouldSleepOn('linker');
+        setSleptOn('rechter')
+        setTimeStamp();
+    }
 
-  const setTimeStamp = () => {
-    const time = new Intl.DateTimeFormat("nl", {
-      timeStyle: "short",
-    });
-    setTime(time.format(Date.now()))
-  }
+    const setTimeStamp = () => {
+        const time = new Intl.DateTimeFormat("nl", {
+            timeStyle: "short",
+        });
+        setTime(time.format(Date.now()))
+    }
 
-  return (
-      <div>
-        <div>
-          <h1>test</h1>
-          <p>Ze sliep {sleptOn}</p>
-          <p>Ze moet {shouldSleepOn} liggen</p>
-          <p>Aangepast op: {time}</p>
+    return (
+        <div className="container">
+            <div>
+                <h3>Jackie lag op haar <span className="accent">{sleptOn}</span> oor</h3>
+                <h3>Jackie moet op haar <span className="accent">{shouldSleepOn}</span> oor liggen</h3>
+                <h3>Aangepast op: <span className="accent">{time}</span> </h3>
+            </div>
+
+            <div>
+                <h3>Ik leg Jackie nu op welk oor:</h3>
+                <div className="button-container">
+
+                    <button className={`${isLeftDisabled ? 'disabled' : ''}`} onClick={onLeftPress}>
+                        <span>Links</span>
+                    </button>
+                    <button className={`${isRightDisabled ? 'disabled' : ''}`} onClick={onRightPress}>
+                        <span>Rechts</span>
+                    </button>
+                </div>
+            </div>
         </div>
-
-        <div>
-          <button onClick={onLeftPress}>
-            <p>Links</p>
-          </button>
-          <button onClick={onRightPress}>
-            <p>Rechts</p>
-          </button>
-        </div>
-      </div>
-  );
+    );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#2D1E2F',
-//     alignItems: 'center',
-//     justifyContent: 'space-around',
-//
-//   },
-//   text: {
-//     padding: 10,
-//     color: '#F7B32B',
-//     fontSize: '25px'
-//   },
-//   buttonContainer: {
-//     display: "flex",
-//     flexDirection: "row"
-//   },
-//   button: {
-//     alignItems: 'center',
-//     margin: 10,
-//     width: 150,
-//     justifyContent: 'center',
-//     paddingVertical: 12,
-//     paddingHorizontal: 32,
-//     borderRadius: 4,
-//     backgroundColor: '#547AA5',
-//   },
-//   buttonText: {
-//     fontSize: 16,
-//     lineHeight: 21,
-//     fontWeight: 'bold',
-//     letterSpacing: 0.25,
-//     color: 'white',
-//   },
-// });
 
