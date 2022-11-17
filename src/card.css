@@ -1,0 +1,52 @@
+.card {
+    background-color: white;
+    border-radius: 35px;
+    padding: 24px;
+    margin: 16px 16px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.left {
+    background-color: white;
+
+}
+
+.right {
+    background-image: linear-gradient(130deg, #243949 0%, #2a4254 100%);
+}
+
+p {
+    color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 18px;
+    margin: 6px;
+}
+
+p:last-child {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+img {
+    height: 100px;
+}
+
+.card-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 40px;
+    margin: 0;
+    padding: 0;
+}
+
+.invert {
+    transform: scaleX(-1);
+}

@@ -1,66 +1,95 @@
 import React, {useEffect} from 'react';
 import './App.css';
+import Card from './card'
 
 import {useState} from "react";
-import {getDatabase, onValue, ref, set} from "firebase/database";
+import {
+    getDatabase,
+    remove,
+    ref,
+    set,
+    push,
+    onChildAdded,
+    onChildRemoved,
+} from "firebase/database";
 
 export default function App() {
     const db = getDatabase();
 
-    const [sleptOn, setSleptOn] = useState('');
-    const [shouldSleepOn, setShouldSleepOn] = useState('');
-    const [time, setTime] = useState('');
-
-    const [isLeftDisabled, setIsLeftDisabled] = useState(false);
-    const [isRightDisabled, setIsRightDisabled] = useState(false);
+    const [sleeps, setSleeps] = useState([])
 
     const EAR_SIDE = {
         'LEFT': 'linker',
         'RIGHT': 'rechter'
     }
 
+    const removeSleep = (id) => {
+        remove(ref(db, `sleeps/${id}`))
+    }
 
-    const getEarSide = () => {
+
+    const listenForSleepUpdates = () => {
         const earSideRef = ref(db, 'sleeps');
-        onValue(earSideRef, (snapshot) => {
-            const {earSide, timeStamp} = snapshot.val();
-            setSleptOn(earSide)
-            setShouldSleepOn(earSide === EAR_SIDE.LEFT ? EAR_SIDE.RIGHT : EAR_SIDE.LEFT);
-            setTime(timeStamp)
+
+        onChildAdded(earSideRef, (data) => {
+            const sleep = {
+                earSide: data.val().earSide,
+                shouldSleepOn: data.val().earSide === EAR_SIDE.LEFT ? EAR_SIDE.RIGHT : EAR_SIDE.LEFT,
+                timeStamp: data.val().timeStamp,
+                id: data.key
+            }
+
+            setSleeps(prevState => [sleep, ...prevState]);
+        });
+
+        onChildRemoved(earSideRef, (data) => {
+            const idToRemove = data.key
+            setSleeps(prevState => prevState.filter((el) => el.id !== idToRemove))
         });
     }
 
-    const setEarSide = async (earSide) => {
+    const setSleep = async (earSide) => {
         const time = new Intl.DateTimeFormat("nl", {
-            timeStyle: "short",
+            timeStyle: "medium",
         });
-        await set(ref(db, 'sleeps/timeStamp'), time.format(Date.now()));
-        await set(ref(db, 'sleeps/earSide'), earSide);
-
+        const timeStamp = time.format(Date.now())
+        const postListRef = ref(db, 'sleeps');
+        const newPostRef = push(postListRef);
+        await set(newPostRef, {
+            earSide,
+            shouldSleepOn: earSide === EAR_SIDE.LEFT ? EAR_SIDE.RIGHT : EAR_SIDE.LEFT,
+            timeStamp,
+        });
     }
 
     useEffect(() => {
-        getEarSide();
-    })
+        listenForSleepUpdates();
+    }, [])
 
     return (
         <div className="container">
-            <div>
-                <h3>Jackie lag op haar <span className="accent">{sleptOn}</span> oor</h3>
-                <h3>Jackie moet op haar <span className="accent">{shouldSleepOn}</span> oor liggen</h3>
-                <h3>Aangepast op: <span className="accent">{time}</span></h3>
+            <div className="card-container">
+                {sleeps.map((el) => {
+                    if (el.id) {
+                        return <Card
+                            key={el.id}
+                            id={el.id}
+                            removeSleep={removeSleep}
+                            earSide={el.earSide}
+                            timeStamp={el.timeStamp}
+                            shouldSleepOn={el.shouldSleepOn}>
+                        </Card>
+                    }
+                })}
             </div>
 
             <div>
                 <h3>Ik leg Jackie nu op welk oor:</h3>
                 <div className="button-container">
-
-                    <button className={`${isLeftDisabled ? 'disabled' : ''}`}
-                            onClick={() => setEarSide(EAR_SIDE.LEFT)}>
+                    <button onClick={() => setSleep(EAR_SIDE.LEFT)}>
                         <span>Links</span>
                     </button>
-                    <button className={`${isRightDisabled ? 'disabled' : ''}`}
-                            onClick={() => setEarSide(EAR_SIDE.RIGHT)}>
+                    <button onClick={() => setSleep(EAR_SIDE.RIGHT)}>
                         <span>Rechts</span>
                     </button>
                 </div>
