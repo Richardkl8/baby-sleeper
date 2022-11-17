@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/baby-sleeper/static/css/main.5b7918a5.css",
-    "main.js": "/baby-sleeper/static/js/main.cac3198c.js",
+    "main.css": "/baby-sleeper/static/css/main.ef1d0569.css",
+    "main.js": "/baby-sleeper/static/js/main.5ea3bef7.js",
     "static/js/787.96e1efa5.chunk.js": "/baby-sleeper/static/js/787.96e1efa5.chunk.js",
     "service-worker.js": "/baby-sleeper/service-worker.js",
     "static/media/sleeping.png": "/baby-sleeper/static/media/sleeping.2ac6998e0bbddcb68851.png",
     "index.html": "/baby-sleeper/index.html",
-    "main.5b7918a5.css.map": "/baby-sleeper/static/css/main.5b7918a5.css.map",
-    "main.cac3198c.js.map": "/baby-sleeper/static/js/main.cac3198c.js.map",
+    "main.ef1d0569.css.map": "/baby-sleeper/static/css/main.ef1d0569.css.map",
+    "main.5ea3bef7.js.map": "/baby-sleeper/static/js/main.5ea3bef7.js.map",
     "787.96e1efa5.chunk.js.map": "/baby-sleeper/static/js/787.96e1efa5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5b7918a5.css",
-    "static/js/main.cac3198c.js"
+    "static/css/main.ef1d0569.css",
+    "static/js/main.5ea3bef7.js"
   ]
 }
